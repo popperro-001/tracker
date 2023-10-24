@@ -1,10 +1,13 @@
-import NextAuth, { Session, User as UserType } from "next-auth";
+import NextAuth, { Session, User as UserType, Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import User from "@/lib/models/user.model";
 import { connectToDB } from "@/lib/mongoose";
 
 export type ExtendedUserType = UserType & { id?: string };
+interface CustomProfile extends Profile {
+  picture?: string; // Define the 'picture' property
+}
 
 const handler = NextAuth({
   providers: [
@@ -34,7 +37,8 @@ const handler = NextAuth({
           await User.create({
             email: profile?.email,
             username: profile?.name?.replace(" ", "").toLowerCase(),
-            image: profile?.picture,
+            
+            image: (profile as CustomProfile).picture,
             todos: []
           });
         }
