@@ -20,7 +20,6 @@ export default function Home() {
           `/api/user/${(session.user as ExtendedUserType).id}/workouts`
         );
         const data = await response.json();
-        console.log("🚀 ~ file: page.tsx:18 ~ data:", data);
 
         setWorkoutList(data);
       })();
@@ -33,11 +32,11 @@ export default function Home() {
     <section className="page-container">
       <PageHeader label="Stats" />
       <div className="grid grid-cols-12 auto-rows-[minmax(0, 400px)] gap-4">
-        <div className="col-span-8">
-          {workoutList.length > 0 && <LineChart data={workoutList} />}
+        <div className="col-span-8 max-sm:col-span-12">
+          <LineChart data={workoutList} />
         </div>
-        <div className="col-span-4">
-          {workoutList.length > 0 && <TimeRangeChart data={workoutList} />}
+        <div className="col-span-4 max-sm:col-span-12">
+          <TimeRangeChart data={workoutList} />
         </div>
       </div>
     </section>

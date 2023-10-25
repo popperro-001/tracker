@@ -38,13 +38,14 @@ const TimeRangeChart = ({ data }: Props) => {
         formattedData.push({ value, day: formattedDate });
       });
 
+    console.log(data);
     return [formattedData];
   }, [data]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <div className="w-full glassmorphism">
-      <div className="w-full h-full text-yellow-500">
-        <ChartHeader label="Activity" color="primary-orange" />
+    <div className="w-full glassmorphism h-[440px] -z-10">
+      <ChartHeader label="Activity" color="primary-orange" />
 
+      <div className="w-full h-[350px]">
         <ResponsiveTimeRange
           data={formattedData || []}
           from={initialDates.startDate}
@@ -54,21 +55,8 @@ const TimeRangeChart = ({ data }: Props) => {
           margin={{ top: 40, right: 40, bottom: 100, left: 40 }}
           dayBorderWidth={2}
           dayBorderColor="#ffffff"
-          legends={[
-            {
-              anchor: "bottom-left",
-              direction: "row",
-              justify: false,
-              itemCount: 4,
-              itemWidth: 42,
-              itemHeight: 36,
-              itemsSpacing: 14,
-              itemDirection: "right-to-left",
-              translateX: -60,
-              translateY: -60,
-              symbolSize: 20,
-            },
-          ]}
+          firstWeekday="monday"
+          legends={[]}
         />
       </div>
     </div>

@@ -61,8 +61,8 @@ const LineChart = ({ data }: Props) => {
   }, [data, startDate, endDate]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="w-full glassmorphism">
-      <div className="w-full h-full">
+    <div className="w-full glassmorphism z-10">
+      <div className="w-full h-[400px]">
         <ChartHeader label="Body Weight" color="primary-orange" />
 
         <div className="flex-end gap-2">
@@ -85,37 +85,39 @@ const LineChart = ({ data }: Props) => {
           />
         </div>
 
-        {formattedData && (
-          <ResponsiveLine
-            data={[formattedData]}
-            colors={{ datum: "color" }}
-            margin={{ top: 50, right: 40, bottom: 40, left: 60 }}
-            xScale={{ type: "point" }}
-            yScale={{
-              type: "linear",
-              min: "auto",
-              max: "auto",
-              stacked: false,
-              reverse: false,
-            }}
-            yFormat=""
-            curve="catmullRom"
-            axisTop={null}
-            axisRight={null}
-            axisBottom={{}}
-            axisLeft={{}}
-            enableGridX={true}
-            enableGridY={true}
-            pointSize={10}
-            pointColor={{ theme: "background" }}
-            pointBorderWidth={2}
-            pointBorderColor={{ from: "serieColor" }}
-            pointLabelYOffset={-12}
-            useMesh={true}
-            legends={[]}
-            enablePointLabel={true}
-          />
-        )}
+        <div className="h-[320px]">
+          {formattedData && (
+            <ResponsiveLine
+              data={[formattedData]}
+              colors={{ datum: "color" }}
+              margin={{ top: 50, right: 40, bottom: 40, left: 60 }}
+              xScale={{ type: "point" }}
+              yScale={{
+                type: "linear",
+                min: "auto",
+                max: "auto",
+                stacked: false,
+                reverse: false,
+              }}
+              yFormat=""
+              curve="catmullRom"
+              axisTop={null}
+              axisRight={null}
+              axisBottom={{}}
+              axisLeft={{}}
+              enableGridX={true}
+              enableGridY={true}
+              pointSize={10}
+              pointColor={{ theme: "background" }}
+              pointBorderWidth={2}
+              pointBorderColor={{ from: "serieColor" }}
+              pointLabelYOffset={-12}
+              useMesh={true}
+              legends={[]}
+              enablePointLabel={true}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
