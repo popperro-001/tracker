@@ -43,7 +43,7 @@ const WorkoutCard = ({ type, id, date, bodyweight, ownerId, tasks }: Props) => {
           >
             Progress:
           </span>{" "}
-          {progress}
+          {progress}{typeof progress === 'number' && '%'}
         </p>
         {type === "history" ? (
           <Link href={`/workout/${id}`} title="Edit">

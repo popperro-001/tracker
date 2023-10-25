@@ -37,6 +37,26 @@ export function getWeekdayFromDate(dateString: string) {
   return daysOfWeek[weekdayIndex];
 }
 
+export function getPastMonthDates(pastMonth: number) {
+  const today = new Date();
+  const oneMonthAgo = new Date(today);
+  oneMonthAgo.setMonth(today.getMonth() - pastMonth); // 1 month ago
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1); // Tomorrow
+
+  const formatDate = (date: Date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  return {
+    startDate: formatDate(oneMonthAgo),
+    endDate: formatDate(tomorrow),
+  };
+}
+
 export function calculateCompletionStatus(arr: any) {
   // Initialize counters for true and false values
   let trueCount = 0;
@@ -61,7 +81,7 @@ export function calculateCompletionStatus(arr: any) {
   } else if (falseCount === 0) {
     return "Completed";
   } else {
-    return Math.floor(completionPercentage) + "%";
+    return Math.floor(completionPercentage);
   }
 }
 

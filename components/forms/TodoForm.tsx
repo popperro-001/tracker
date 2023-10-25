@@ -15,7 +15,7 @@ interface Props {
 }
 
 const TodoForm = ({type, todo, setTodo, submitting, handleSubmit, picklist}: Props) => {
-  return <div className="max-sm:basis-2/3 basis-1/2 max-sm:flex-1">
+  return <div className="max-sm:basis-2/3 basis-1/2 max-sm:flex-1 z-20">
     <form
         onSubmit={handleSubmit}
         className="w-full max-w-2xl flex flex-col gap-7 glassmorphism max-sm:mt-2"

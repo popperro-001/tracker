@@ -41,10 +41,12 @@ const Library = () => {
         if (data.length > 0) {
           const uniqueArray = Array.from(
             new Set(data.map((item: any) => item.category))
-          ).map((category) => ({
-            value: category as string,
-            label: category as string,
-          }));
+          )
+            .map((category) => ({
+              value: category as string,
+              label: category as string,
+            }))
+            .sort((a, b) => (a.value > b.value ? 1 : -1));
 
           setCategoryPicklist(uniqueArray);
         }
@@ -87,7 +89,12 @@ const Library = () => {
         (item) => item.value === data.category
       );
       if (!doesExist) {
-        categoryPicklist.push({ value: data.category, label: data.category });
+        const uniqueArray = [
+          ...categoryPicklist,
+          { value: data.category, label: data.category },
+        ].sort((a, b) => (a.value > b.value ? 1 : -1));
+
+        setCategoryPicklist(uniqueArray);
       }
 
       setSubmitting(false);
@@ -119,10 +126,12 @@ const Library = () => {
         if (updatedList.length > 0) {
           const uniqueArray = Array.from(
             new Set(updatedList.map((item: any) => item.category))
-          ).map((category) => ({
-            value: category as string,
-            label: category as string,
-          }));
+          )
+            .map((category) => ({
+              value: category as string,
+              label: category as string,
+            }))
+            .sort((a, b) => (a.value > b.value ? 1 : -1));
 
           setCategoryPicklist(uniqueArray);
         }
@@ -161,7 +170,7 @@ const Library = () => {
       </div>
 
       {isLoading && <Loader type="circles" />}
-      
+
       <div className="mt-6 grid grid-cols-4 gap-2 max-sm:grid-cols-2 max-xs:grid-cols-1 max-md:grid-cols-3">
         {filteredTodoList.map((todo) => (
           <TodoCard
