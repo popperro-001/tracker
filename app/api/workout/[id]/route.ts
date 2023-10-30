@@ -12,13 +12,28 @@ interface Params {
 export const GET = async (req: Request, { params }: Params) => {
   try {
     await connectToDB();
+    const prevTasks: any = [];
 
-    const plan = await Workout.findById(params.id).populate({
+    const workout = await Workout.findById(params.id).populate({
       path: "tasks",
       select: "_id sets todo actual",
       populate: { path: "todo", select: "category name" },
     });
-    return NextResponse.json(plan, { status: 200 });
+
+    const todoList: any = workout.tasks.map((task: any) => task.todo._id);
+
+    if (todoList.length > 0) {
+      await Promise.all(
+        todoList.map(async (todo: any) => {
+          const tasks = await Task.find({$and: [{ actual: true }, {owner: workout.owner}, {todo: todo}, {createdAt: {$lt: workout.date}}]}).sort({createdAt: -1}).limit(1);
+          if (tasks.length > 0) {
+            prevTasks.push(tasks[0])
+          }
+        })
+      );
+    }
+
+    return NextResponse.json([workout, prevTasks], { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch plans", { status: 500 });
   }

@@ -18,8 +18,14 @@ const EditWorkout = ({ params }: { params: { id: string } }) => {
   const [taskList, setTaskList] = useState<
     Array<{
       _id: string;
-      todo: { name: string };
+      todo: { name: string; _id: string };
       actual: boolean;
+      sets: Array<{ reps: number; weight: number; _id: string }>;
+    }>
+  >([]);
+  const [prevTasks, setPrevTasks] = useState<
+    Array<{
+      todo: string;
       sets: Array<{ reps: number; weight: number; _id: string }>;
     }>
   >([]);
@@ -34,10 +40,11 @@ const EditWorkout = ({ params }: { params: { id: string } }) => {
         const workoutResponse = await fetch(`/api/workout/${params.id}`);
         const workoutData = await workoutResponse.json();
         setWorkout({
-          date: workoutData.date,
-          bodyweight: workoutData.bodyweight,
+          date: workoutData[0].date,
+          bodyweight: workoutData[0].bodyweight,
         });
-        setTaskList(workoutData.tasks);
+        setTaskList(workoutData[0].tasks);
+        setPrevTasks(workoutData[1])
 
         // console.log(workoutData);
         setIsLoading(false);
@@ -126,10 +133,12 @@ const EditWorkout = ({ params }: { params: { id: string } }) => {
               id={task._id}
               label={task.todo.name}
               actual={task.actual}
+              todoId={task.todo._id}
               sets={JSON.parse(JSON.stringify(task.sets))}
               handleSubmit={() => handleTaskSubmit(task._id)}
               taskList={taskList}
               setTaskList={setTaskList}
+              prevTasks={prevTasks}
             />
           ))}
       </div>

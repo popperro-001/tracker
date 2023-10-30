@@ -11,48 +11,56 @@ interface Props {
   id: string;
   label: string;
   actual: boolean;
+  todoId: string;
   sets: Array<{ reps: number; weight: number; _id: string }>;
   handleSubmit: () => void;
   taskList: Array<{
     _id: string;
-    todo: { name: string };
+    todo: { name: string; _id: string };
     actual: boolean;
     sets: Array<{ reps: number; weight: number; _id: string }>;
   }>;
   setTaskList: (
     tasks: Array<{
       _id: string;
-      todo: { name: string };
+      todo: { name: string; _id: string };
       actual: boolean;
       sets: Array<{ reps: number; weight: number; _id: string }>;
     }>
   ) => void;
+  prevTasks: Array<{
+    todo: string;
+    sets: Array<{ reps: number; weight: number; _id: string }>;
+  }>;
 }
 
 const TaskCard = ({
   id,
   label,
   actual,
+  todoId,
   sets,
   handleSubmit,
   taskList,
   setTaskList,
+  prevTasks,
 }: Props) => {
   const [isEditable, setIsEditable] = useState(false);
   const [tempSets, setTempSets] = useState([...sets]);
   const progress = calculateTaskProgress(sets);
+  const prevTask = prevTasks.find((task) => task.todo === todoId);
 
   const handleSubmitChanges = () => {
-    const updatedTask = taskList.find(task => task._id === id);
-    if(updatedTask) {
-      updatedTask.sets = tempSets
+    const updatedTask = taskList.find((task) => task._id === id);
+    if (updatedTask) {
+      updatedTask.sets = tempSets;
       const tasksToReplace = taskList.map((task) => {
-        if(task._id === updatedTask._id) {
+        if (task._id === updatedTask._id) {
           return updatedTask;
         } else {
-          return task
+          return task;
         }
-      })
+      });
       setTaskList(tasksToReplace);
     }
 
@@ -65,8 +73,8 @@ const TaskCard = ({
     if (updatedSet) {
       updatedSet.weight = weight;
       const setsToReplace = tempSets.map((set) => {
-        if(set._id === updatedSet._id) {
-          return updatedSet
+        if (set._id === updatedSet._id) {
+          return updatedSet;
         } else {
           return set;
         }
@@ -80,8 +88,8 @@ const TaskCard = ({
     if (updatedSet) {
       updatedSet.reps = reps;
       const setsToReplace = tempSets.map((set) => {
-        if(set._id === updatedSet._id) {
-          return updatedSet
+        if (set._id === updatedSet._id) {
+          return updatedSet;
         } else {
           return set;
         }
@@ -91,7 +99,7 @@ const TaskCard = ({
   };
 
   const handleCancel = () => {
-    const defaultSets = JSON.parse(JSON.stringify(sets))
+    const defaultSets = JSON.parse(JSON.stringify(sets));
     setTempSets(defaultSets);
     setIsEditable(false);
   };
@@ -108,20 +116,20 @@ const TaskCard = ({
         </p>
         <div className="flex-between gap-2">
           <p className="text-sm blue_gradient font-semibold">{progress}</p>
-        {isEditable ? (
-          <div className="flex-between gap-2">
-            <button onClick={handleSubmitChanges}>
-              <CheckIcon className="w-5 h-5 text-green-700" />
+          {isEditable ? (
+            <div className="flex-between gap-2">
+              <button onClick={handleSubmitChanges}>
+                <CheckIcon className="w-5 h-5 text-green-700" />
+              </button>
+              <button onClick={handleCancel}>
+                <XMarkIcon className="w-5 h-5 text-primary-orange" />
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setIsEditable(true)}>
+              <PencilSquareIcon className="w-5 h-5 text-primary-orange" />
             </button>
-            <button onClick={handleCancel}>
-              <XMarkIcon className="w-5 h-5 text-primary-orange" />
-            </button>
-          </div>
-        ) : (
-          <button onClick={() => setIsEditable(true)}>
-            <PencilSquareIcon className="w-5 h-5 text-primary-orange" />
-          </button>
-        )}
+          )}
         </div>
       </div>
 
@@ -132,7 +140,7 @@ const TaskCard = ({
           <p className="leading-7">Weight:</p>
           <p className="leading-7">Reps:</p>
         </div>
-        {tempSets.map((set) => (
+        {tempSets.map((set, index) => (
           <div key={set._id} className="flex flex-col gap-1 justify-center">
             {isEditable ? (
               <>
@@ -181,8 +189,14 @@ const TaskCard = ({
               </>
             ) : (
               <>
-                <p className="leading-7">{set.weight}</p>
-                <p className="leading-7">{set.reps}</p>
+                <div className="flex gap-2 justify-end">
+                  {prevTask && <p className="leading-7 text-blue-400 font-semibold">{prevTask.sets[index].weight}/</p>}
+                  <p className="leading-7">{set.weight}</p>
+                </div>
+                <div className="flex gap-2 justify-end">
+                  {prevTask && <p className="leading-7 text-blue-400 font-semibold">{prevTask.sets[index].reps}/</p>}
+                  <p className="leading-7">{set.reps}</p>
+                </div>
               </>
             )}
           </div>

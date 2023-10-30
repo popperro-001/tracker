@@ -32,7 +32,7 @@ export default function Home() {
     <section className="page-container">
       <PageHeader label="Stats" />
       <div className="grid grid-cols-12 auto-rows-[minmax(0, 400px)] gap-4">
-        <div className="col-span-8 max-sm:col-span-12">
+        <div className="col-span-8 max-sm:col-span-12 z-20">
           <LineChart data={workoutList} />
         </div>
         <div className="col-span-4 max-sm:col-span-12">

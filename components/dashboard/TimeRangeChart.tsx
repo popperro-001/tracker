@@ -38,7 +38,6 @@ const TimeRangeChart = ({ data }: Props) => {
         formattedData.push({ value, day: formattedDate });
       });
 
-    console.log(data);
     return [formattedData];
   }, [data]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
@@ -51,11 +50,12 @@ const TimeRangeChart = ({ data }: Props) => {
           from={initialDates.startDate}
           to={initialDates.endDate}
           emptyColor="#eeeeee"
+          // weekdayLegendOffset={-30}
           colors={["#FF5722", "#eab308", "#FEF08A", "#4ade80"]}
           margin={{ top: 40, right: 40, bottom: 100, left: 40 }}
           dayBorderWidth={2}
           dayBorderColor="#ffffff"
-          firstWeekday="monday"
+          firstWeekday="sunday"
           legends={[]}
         />
       </div>
