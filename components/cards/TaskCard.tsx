@@ -190,11 +190,11 @@ const TaskCard = ({
             ) : (
               <>
                 <div className="flex gap-1 justify-end">
-                  {prevTask && <p className="leading-7 text-blue-400 text-[0.6rem]">({prevTask.sets[index] ? prevTask.sets[index].weight : 0} )</p>}
+                  {prevTask && <p className="leading-7 text-blue-400 text-[0.6rem]">{prevTask.sets[index] ? prevTask.sets[index].weight : 0}</p>}
                   <p className="leading-7">{set.weight}</p>
                 </div>
                 <div className="flex gap-2 justify-end">
-                  {prevTask && <p className="leading-7 text-blue-400 text-[0.6rem]">({prevTask.sets[index] ?  prevTask.sets[index].reps : 0} )</p>}
+                  {prevTask && <p className="leading-7 text-blue-400 text-[0.6rem]">{prevTask.sets[index] ?  prevTask.sets[index].reps : 0}</p>}
                   <p className="leading-7">{set.reps}</p>
                 </div>
               </>
